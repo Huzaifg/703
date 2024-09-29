@@ -1,0 +1,46 @@
+# LaTeX intermediate and backup files
+*.aux
+*.lof
+*.lot
+*.fls
+*.log
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.idx
+*.glo
+*.gls
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.fdb_latexmk
+*.synctex(busy)
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# LaTeX editor-specific files
+._*
+*.swp
+*.swo
+*.bak
+*~ 
+Thumbs.db
+.DS_Store
+
+# Auxillary LaTeX build directories
+latexmk/
+build/
+
+# Do NOT ignore PDF files (output files)
+# Uncomment below if needed to ignore all PDFs except specific ones
+# !important_output.pdf

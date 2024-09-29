@@ -1,0 +1,661 @@
+\documentclass{article}
+\usepackage{xcolor}
+\definecolor{cit}{RGB}{0,0,255}  % Define 'cit' as blue
+\usepackage{color}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{bm}  % Add this line
+
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\innp}[1]{\left\langle #1 \right\rangle}
+\newcommand{\bdot}[1]{\mathbf{\dot{ #1 }}}
+\newcommand{\OPT}{\operatorname{OPT}}
+\newcommand{\mA}{\mathbf{A}}
+\newcommand{\mP}{\mathbf{P}}
+\newcommand{\mLambda}{\mathbf{\Lambda}}
+\newcommand{\ones}{\mathds{1}}
+\newcommand{\zeros}{\textbf{0}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vp}{\mathbf{p}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\cx}{\mathcal{X}}
+\newcommand{\cy}{\mathcal{Y}}
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\cz}{\mathcal{Z}}
+\newcommand{\vxh}{\mathbf{\hat{x}}}
+\newcommand{\vyh}{\mathbf{\hat{y}}}
+\newcommand{\vzh}{\mathbf{\hat{z}}}
+\newcommand{\vy}{\mathbf{y}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\va}{\mathbf{a}}
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vd}{\mathbf{d}}
+\newcommand{\vvh}{\mathbf{\hat{v}}}
+\newcommand{\vb}{\mathbf{b}}
+\newcommand{\vg}{\mathbf{g}}
+\newcommand{\vu}{\mathbf{u}}
+\newcommand{\vub}{\overline{\mathbf{u}}}
+\newcommand{\vuh}{\hat{\mathbf{u}}}
+\newcommand{\veta}{\bm{\eta}}
+\newcommand{\vetah}{\bm{\hat{\eta}}}
+\newcommand{\defeq}{\stackrel{\mathrm{\scriptscriptstyle def}}{=}}
+\newcommand{\etal}{\textit{et al}.}
+\newcommand{\tnabla}{\widetilde{\nabla}}
+\newcommand{\tE}{\widetilde{E}}
+\newcommand{\rr}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}} 
+\newcommand{\inner}[2]{\langle#1,#2\rangle}
+\newcommand{\solution}{\medskip\noindent{\color{cit}\textbf{Solution:} \par \medskip}}
+
+\title{Math 703 (Smith): Problem Set 1}
+\author{Huzaifa Unjhawala}
+\date{Due Tuesday September 17}
+
+\begin{document}
+\maketitle
+
+\textbf{Submit to Canvas before 11:59 PM}
+
+\section*{1. Prove the following facts from linear algebra (review problems):}
+
+\begin{itemize}
+    \item[(a)] If $\mA$ is positive definite, then $\mA$ is non-singular (invertible).
+    \item[(b)] For square matrix $\mA$, show that $\vx^T \mA \vx = \vx^T \mA \vx$, where $\mA = \frac{\mA + \mA^T}{2}$ is the symmetric part of $\mA$.
+    \item[(c)] If $\mA$ is symmetric and invertible, then $\mA^{-1}$ is symmetric.
+    \item[(d)] A Hermitian matrix $\mA$ has real eigenvalues.
+\end{itemize}
+
+\solution{
+\begin{itemize}
+    \item[(a)] We can prove this by contradiction. Suppose $\mA$ is positive definite, but not invertible. Then there exists a non-zero vector $\vx$ such that $\mA \vx = \zeros$. 
+    
+    If we multiply the above by $\vx^T$, we get $\vx^T \mA \vx = 0$. However, this contradicts the definition of positive definite, which requires that $\vx^T \mA \vx > 0$ for all non-zero $\vx$. Therefore, $\mA$ must be invertible.
+    \item[(b)] Since $\vx^T \mA \vx$ is a scalar, we can write $\vx^T \mA \vx = (\vx^T \mA \vx)^T = \vx^T \mA^T \vx$. Since $\mA$ is symmetric, $\mA = \mA^T$. Therefore, $\vx^T \mA \vx = \vx^T \mA \vx$.
+    \item[(c)] Since $\mA$ is symmetric and invertible, $\mA^{-1}$ is also symmetric. This is because $(\mA^{-1})^T = (\mA^T)^{-1} = \mA^{-1}$.
+    \item[(d)] Let $\lambda$ be an eigenvalue of $\mA$ with corresponding eigenvector $\vx$. Then $\mA \vx = \lambda \vx$. Multiplying both sides by the conjugate of $\vx$, we get $\vx^{\dagger} \mA \vx = \lambda \vx^{\dagger} \vx$. Now, since $\mA$ is Hermitian, $\mA = \mA^{\dagger}$. Therefore, $\vx^{\dagger} \mA \vx = \vx^{\dagger} \mA^{\dagger} \vx = \lambda \vx^{\dagger} \vx = \lambda^{\dagger} \vx^{\dagger} \vx$. Where $\lambda^{\dagger}$ is the complex conjugate of $\lambda$ obtained by doing $(\lambda \vx^{\dagger}\vx)^{\dagger}$. Since $\vx^{\dagger} \vx$ is real, $\lambda^{\dagger} = \lambda$. Therefore, $\lambda$ is real.
+\end{itemize}
+}
+
+\section*{2. Consider $\mA$ symmetric, positive definite and $P(\vx) = \frac{\vx^T \mA \vx}{2} - \vx^T \vb$. Show that $P(\vx)$ has a global minimum at $\vx^* = \mA^{-1}\vb$ by the following steps:}
+
+\begin{itemize}
+    \item[(i)] Without loss of generality, let $\vx = \vx^* + \va t$ for arbitrary vectors $\vx^*$, $\va$ and $-\infty < t < \infty$.
+    \item[(ii)] Compute $P(t; \vx^*, \va)$.
+    \item[(iii)] Show that the minimum value of $P(t; \vx^*, \va)$ is achieved at $\vx^* = \mA^{-1}\vb$ and $t = 0$.
+\end{itemize}
+
+What is the minimum value of $P(\vx)$? Describe in words the idea of this proof.
+
+\solution{
+    Let $\vx = \vx^* + \va t$. Then, $P(t; \vx^*, \va) = \frac{(\vx^* + \va t)^T \mA (\vx^* + \va t)}{2} - (\vx^* + \va t)^T \vb$. 
+
+    Expanding the expression, we get:
+    \[
+    P(t; \vx^*, \va) = \frac{\vx^{*T} \mA \vx^* + 2t \vx^{*T} \mA \va + t^2 \va^T \mA \va}{2} - \vx^{*T} \vb - t \va^T \vb.
+    \]
+
+    To find the minimum value of $P(t; \vx^*, \va)$, we take the derivative with respect to $t$ and set it to zero:
+    \[
+    \frac{d}{dt} P(t; \vx^*, \va) = \vx^{*T} \mA \va + t \va^T \mA \va - \va^T \vb = 0.
+    \]
+    Setting $t = 0$ (since that is where we want the minimum to occur), we get:
+    \[
+    \vx^{*T} \mA \va = \va^T \vb.
+    \]
+    Taking transpose on both sides, we get:
+    \[
+    \va^T \mA \vx^* = \va^T \vb.
+    \]
+    Since this must hold for all $\va$, we can isolate $\vx^*$ by multiplying both sides by $\mA^{-1}$ ($\mA^{-1}$ exists since $\mA$ is positive definite and thus invertible):
+    \[
+    \vx^* = \mA^{-1} \vb.
+    \]
+
+    The minimum value of $P(\vx)$ is calculated by substituting $\vx = \mA^{-1} \vb$ into $P(\vx)$:
+    \[
+    P(\vx) = \frac{\vx^{T} \mA \vx}{2} - \vx^{T} \vb = \frac{\vb^T \mA^{-1} \vb}{2} - \vb^T \mA^{-1} \vb = -\frac{\vb^T \mA^{-1} \vb}{2}.
+    \]
+
+    The idea of the proof is to explore along the direction of $\va$ from $\vx^*$. Using the form given is helpful because it allows $P(\vx)$ to become a quadratic function of $t$ allowing for a straightforward minimization.
+}
+
+\section*{3. For the mass-spring system considered in class (Lecture 1), compute the potential energy based on}
+
+\begin{itemize}
+    \item[(i)] Physical reasoning.
+    \item[(ii)] The expression $P(\vx) = \frac{\vx^T \mA \vx}{2} - \vx^T \vd$ with $\vx$ given by $\mA\vx = \vd$. Note that lecture notes use a vector labeled $\bm{\alpha}$ instead of $\vx$. The results from (i) and (ii) may differ by only a constant.
+\end{itemize}
+
+\solution{
+
+From the class notes, we know that physically, the potential energy of the system comes from the work done by the spring restoring forces and the gravitational force. The equation then becomes:
+
+\[
+P(\alpha) = \frac{1}{2} k_1 (\alpha_1 - l_1)^2 + \frac{1}{2} k_2 (\alpha_2 - \alpha_1 - l_2)^2 + \frac{1}{2} k_3 (l - \alpha_2 - l_3)^2 + m_1 g (L - \alpha_1) + m_2 g (L - \alpha_2)
+\]
+
+Also, the potential energy in matrix form is \( P(\mathbf{x}) = \frac{1}{2} \mathbf{x}^\top \mathbf{A} \mathbf{x} - \mathbf{x}^\top \mathbf{d} \).
+
+From the lecture notes, we know that:
+
+\[
+\mathbf{A} = \begin{bmatrix}
+k_1 + k_2 & -k_2 \\
+-k_2 & k_2 + k_3
+\end{bmatrix}
+\]
+
+\[
+\mathbf{d} = \begin{bmatrix}
+k_1 l_1 + k_2 l_2 - m_1 g \\
+k_2 l_2 + k_3 (l - l_3) - m_2 g
+\end{bmatrix}
+\]
+
+Substituting these into \( P(\mathbf{x}) = \frac{1}{2} \mathbf{x}^\top \mathbf{A} \mathbf{x} - \mathbf{x}^\top \mathbf{d} \), we get:
+
+\[
+P(\mathbf{x}) = \frac{1}{2} (k_1 + k_2) x_1^2 - k_2 x_1 x_2 + \frac{1}{2} (k_2 + k_3) x_2^2 - \left( k_1 l_1 + k_2 l_2 - m_1 g \right) x_1 - \left( k_2 l_2 + k_3 (l - l_3) - m_2 g \right) x_2
+\]
+
+Expanding and rearranging terms:
+
+\[
+\begin{aligned}
+P(\mathbf{x}) &= \frac{1}{2} k_1 x_1^2 + \frac{1}{2} k_2 (x_2 - x_1)^2 + \frac{1}{2} k_3 x_2^2 - k_1 l_1 x_1 - k_2 l_2 (x_2 - x_1) \\
+&\quad - k_3 (l - l_3) x_2 + m_1 g x_1 + m_2 g x_2
+\end{aligned}
+\]
+
+This expression is equivalent to the one derived from physical reasoning, with \( x_1 = \alpha_1 \) and \( x_2 = \alpha_2 \). The only difference is a constant term:
+
+\[
+\text{Constant} = \frac{1}{2} k_1 l_1^2 + \frac{1}{2} k_2 l_2^2 + \frac{1}{2} k_3 (l - l_3)^2 + m_1 g L + m_2 g L
+\]
+
+This constant represents the potential energy of the system in its initial configuration (when \( x_1 = x_2 = 0 \)), which was not included in the matrix formulation but is implicitly present in the physical reasoning approach.
+
+}
+
+\section*{4. Consider}
+
+\[
+\mA = \begin{bmatrix}
+1.00 \times 10^{-3} & 1.00 \\
+1.00 \times 10^5 & 2.00
+\end{bmatrix}, \quad
+\vb = \begin{bmatrix}
+1.00 \\
+3.00
+\end{bmatrix}.
+\]
+
+Show that switching rows in Gaussian elimination is necessary with arithmetic that is accurate to 3 significant digits (review Gaussian elimination).
+
+\solution{
+
+To solve this system using Gaussian elimination with arithmetic accurate to 3 significant digits, we will first attempt the elimination without switching rows and observe the issues that arise.
+
+\subsubsection*{Attempt Without Row Switching}
+
+First, write the augmented matrix of the system:
+
+\[
+\left[ \begin{array}{cc|c}
+1.00 \times 10^{-3} & 1.00 & 1.00 \\
+1.00 \times 10^{5} & 2.00 & 3.00
+\end{array} \right]
+\]
+
+Our goal is to eliminate the entry \( a_{21} = 1.00 \times 10^{5} \) in the second row, first column. The multiplier for the elimination is:
+
+\[
+m = \dfrac{a_{21}}{a_{11}} = \dfrac{1.00 \times 10^{5}}{1.00 \times 10^{-3}} = 1.00 \times 10^{8}
+\]
+
+Now, we update the second row:
+
+\[
+\text{Row}_2 \leftarrow \text{Row}_2 - m \times \text{Row}_1
+\]
+
+Calculating \( m \times \text{Row}_1 \) considering only 3 significant digits:
+
+\[
+m \times \text{Row}_1 = (1.00 \times 10^{8}) \times \left[ 1.00 \times 10^{-3},\ 1.00,\ 1.00 \right] = [1.00 \times 10^{5},\ 1.00 \times 10^{8},\ 1.00 \times 10^{8}]
+\]
+
+Subtracting this from Row 2:
+
+\[
+\begin{aligned}
+\text{Row}_2 &= [1.00 \times 10^{5},\ 2.00,\ 3.00] - [1.00 \times 10^{5},\ 1.00 \times 10^{8},\ 1.00 \times 10^{8}] \\
+&= [0,\ -1.00 \times 10^{8},\ -1.00 \times 10^{8}]
+\end{aligned}
+\]
+
+The updated augmented matrix is:
+
+\[
+\left[ \begin{array}{cc|c}
+1.00 \times 10^{-3} & 1.00 & 1.00 \\
+0 & -1.00 \times 10^{8} & -1.00 \times 10^{8}
+\end{array} \right]
+\]
+
+Next, we solve for \( x_2 \) from the second equation:
+
+\[
+-1.00 \times 10^{8}\, x_2 = -1.00 \times 10^{8} \quad \Rightarrow \quad x_2 = 1.00
+\]
+
+Back-substituting into the first equation:
+
+\[
+(1.00 \times 10^{-3})\, x_1 + 1.00\, x_2 = 1.00 \quad \Rightarrow \quad (1.00 \times 10^{-3})\, x_1 + 1.00 = 1.00
+\]
+
+Solving for \( x_1 \):
+
+\[
+(1.00 \times 10^{-3})\, x_1 = 0 \quad \Rightarrow \quad x_1 = 0
+\]
+
+However, substituting \( x_1 = 0 \) and \( x_2 = 1.00 \) back into the second original equation:
+
+\[
+(1.00 \times 10^{5})(0) + 2.00 (1.00) = 2.00 \neq 3.00
+\]
+
+This inconsistency indicates a significant numerical error due to subtracting large numbers with limited significant digits, leading to loss of precision.
+
+\subsubsection*{Attempt With Row Switching}
+
+To improve numerical stability, we switch the rows to position the equation with the largest coefficient first:
+
+\[
+\left[ \begin{array}{cc|c}
+1.00 \times 10^{5} & 2.00 & 3.00 \\
+1.00 \times 10^{-3} & 1.00 & 1.00
+\end{array} \right]
+\]
+
+Now, the pivot element \( a_{11} = 1.00 \times 10^{5} \) is much larger, reducing the risk of significant rounding errors. The multiplier for eliminating \( a_{21} \) is:
+
+\[
+m = \dfrac{a_{21}}{a_{11}} = \dfrac{1.00 \times 10^{-3}}{1.00 \times 10^{5}} = 1.00 \times 10^{-8}
+\]
+
+Updating the second row:
+
+\[
+\text{Row}_2 \leftarrow \text{Row}_2 - m \times \text{Row}_1
+\]
+
+Calculating \( m \times \text{Row}_1 \):
+
+\[
+m \times \text{Row}_1 = (1.00 \times 10^{-8}) \times \left[ 1.00 \times 10^{5},\ 2.00,\ 3.00 \right] = [1.00 \times 10^{-3},\ 2.00 \times 10^{-8},\ 3.00 \times 10^{-8}]
+\]
+
+Subtracting from Row 2 (keeping only 3 significant digits):
+
+\[
+\begin{aligned}
+a_{22}' &= 1.00 - 2.00 \times 10^{-8} \approx 1.00 \\
+b_2' &= 1.00 - 3.00 \times 10^{-8} \approx 1.00
+\end{aligned}
+\]
+
+The updated augmented matrix is:
+
+\[
+\left[ \begin{array}{cc|c}
+1.00 \times 10^{5} & 2.00 & 3.00 \\
+0 & 1.00 & 1.00
+\end{array} \right]
+\]
+
+Now, solve for \( x_2 \):
+
+\[
+1.00\, x_2 = 1.00 \quad \Rightarrow \quad x_2 = 1.00
+\]
+
+Back-substitute into the first equation:
+
+\[
+1.00 \times 10^{5}\, x_1 + 2.00\, x_2 = 3.00
+\]
+
+Substitute \( x_2 = 1.00 \):
+
+\[
+1.00 \times 10^{5}\, x_1 + 2.00 = 3.00 \quad \Rightarrow \quad 1.00 \times 10^{5}\, x_1 = 1.00
+\]
+
+Solving for \( x_1 \):
+
+\[
+x_1 = \dfrac{1.00}{1.00 \times 10^{5}} = 1.00 \times 10^{-5}
+\]
+
+This solution satisfies both original equations when computed with arithmetic accurate to 3 significant digits:
+
+\[
+\begin{aligned}
+(1.00 \times 10^{-3})(1.00 \times 10^{-5}) + 1.00 (1.00) &= 1.00 + 0.0000100 \approx 1.00 \\
+(1.00 \times 10^{5})(1.00 \times 10^{-5}) + 2.00 (1.00) &= 1.00 + 2.00 = 3.00
+\end{aligned}
+\]
+
+\subsubsection*{Conclusion}
+
+Switching the rows places the largest pivot element first, minimizing rounding errors in the elimination process. Without row switching, subtracting large numbers leads to loss of significant digits and incorrect results. Therefore, row switching is necessary when performing Gaussian elimination with arithmetic accurate to 3 significant digits to ensure numerical stability and accuracy.
+    
+}
+
+\section*{5. Consider $\mA\vx = \vb$, where $\mA$ is $m \times n$ with $m > n$ and $\mA$ has linearly independent columns; $\vb$ is not in the column space of $\mA$ and thus $\mA\vx = \vb$ has no solution.}
+
+\begin{itemize}
+    \item[(a)] Given the measurements $b_1, b_2, \dots, b_m$ at times $t_1, t_2, \dots, t_m$, show that the best fit line $y = C + Dt$ (minimizing the Euclidean norm of the error) is determined by
+    \[
+    \begin{bmatrix}
+    m & \sum t_i \\
+    \sum t_i & \sum t_i^2
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \sum b_i \\
+    \sum t_i b_i
+    \end{bmatrix}.
+    \]
+    \item[(b)] Find $C$ and $D$ in terms of $t_i$ and $b_i$.
+    \item[(c)] Show that $\ve^T(\mA\vx) = 0$.
+    \item[(d)] Show that the sum of the individual error terms $\sum e_i$ is equal to zero.
+    \item[(e)] Explain why repeated measurements (at the same time) are not pathological, and construct an example to illustrate.
+\end{itemize}
+
+\solution{
+    \section*{Problem 5}
+
+Consider $\mA\vx = \vb$, where $\mA$ is $m \times n$ with $m > n$ and $\mA$ has linearly independent columns; $\vb$ is not in the column space of $\mA$ and thus $\mA\vx = \vb$ has no solution.
+
+\begin{enumerate}
+    \item[(a)] \textbf{Show that the best fit line $y = C + Dt$ (minimizing the Euclidean norm of the error) is determined by the normal equations:}
+    \[
+    \begin{bmatrix}
+    m & \sum t_i \\
+    \sum t_i & \sum t_i^2
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \sum b_i \\
+    \sum t_i b_i
+    \end{bmatrix}.
+    \]
+
+    \textbf{Solution:}
+
+    We are given measurements $(t_i, b_i)$ for $i = 1, 2, \dots, m$. The model for the best fit line is:
+    \[
+    y = C + D t.
+    \]
+    Our goal is to find $C$ and $D$ such that the sum of squared errors is minimized:
+    \[
+    E = \sum_{i=1}^m \left( b_i - (C + D t_i) \right)^2.
+    \]
+    This is a linear least squares problem, which can be expressed in matrix form as:
+    \[
+    \mA \vx = \vb,
+    \]
+    where:
+    \[
+    \mA = \begin{bmatrix}
+    1 & t_1 \\
+    1 & t_2 \\
+    \vdots & \vdots \\
+    1 & t_m \\
+    \end{bmatrix}, \quad
+    \vx = \begin{bmatrix}
+    C \\
+    D
+    \end{bmatrix}, \quad
+    \vb = \begin{bmatrix}
+    b_1 \\
+    b_2 \\
+    \vdots \\
+    b_m \\
+    \end{bmatrix}.
+    \]
+    Since $\vb$ is not in the column space of $\mA$, the system $\mA\vx = \vb$ has no exact solution. Instead, we seek $\vx$ that minimizes $\|\mA\vx - \vb\|^2$.
+
+    The normal equations for the least squares solution are:
+    \[
+    \mA^\top \mA \vx = \mA^\top \vb.
+    \]
+    Compute $\mA^\top \mA$:
+    \[
+    \mA^\top \mA = \begin{bmatrix}
+    \sum_{i=1}^m 1 & \sum_{i=1}^m t_i \\
+    \sum_{i=1}^m t_i & \sum_{i=1}^m t_i^2 \\
+    \end{bmatrix}
+    = \begin{bmatrix}
+    m & \sum t_i \\
+    \sum t_i & \sum t_i^2 \\
+    \end{bmatrix}.
+    \]
+    Compute $\mA^\top \vb$:
+    \[
+    \mA^\top \vb = \begin{bmatrix}
+    \sum_{i=1}^m b_i \\
+    \sum_{i=1}^m t_i b_i \\
+    \end{bmatrix}.
+    \]
+    Therefore, the normal equations become:
+    \[
+    \begin{bmatrix}
+    m & \sum t_i \\
+    \sum t_i & \sum t_i^2 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \sum b_i \\
+    \sum t_i b_i \\
+    \end{bmatrix}.
+    \]
+    This establishes the required result.
+
+    \item[(b)] \textbf{Find $C$ and $D$ in terms of $t_i$ and $b_i$.}
+
+    \textbf{Solution:}
+
+    We have the normal equations:
+    \[
+    \begin{bmatrix}
+    a & b \\
+    b & c \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    d \\
+    e \\
+    \end{bmatrix},
+    \]
+    where:
+    \[
+    a = m, \quad b = \sum t_i, \quad c = \sum t_i^2, \quad d = \sum b_i, \quad e = \sum t_i b_i.
+    \]
+    The determinant of the coefficient matrix is:
+    \[
+    \Delta = ac - b^2 = m \left( \sum t_i^2 \right) - \left( \sum t_i \right)^2.
+    \]
+    Solving for $C$ and $D$:
+    \[
+    C = \frac{d c - b e}{\Delta}, \quad D = \frac{a e - b d}{\Delta}.
+    \]
+    Substituting the expressions:
+    \[
+    C = \frac{ (\sum b_i)(\sum t_i^2) - (\sum t_i)(\sum t_i b_i) }{ m (\sum t_i^2) - (\sum t_i)^2 },
+    \]
+    \[
+    D = \frac{ m (\sum t_i b_i) - (\sum t_i)(\sum b_i) }{ m (\sum t_i^2) - (\sum t_i)^2 }.
+    \]
+
+    \item[(c)] \textbf{Show that $\ve^\top (\mA \vx) = 0$.}
+
+    \textbf{Solution:}
+
+    The residual vector is defined as:
+    \[
+    \ve = \vb - \mA \vx.
+    \]
+    We need to show that:
+    \[
+    \ve^\top (\mA \vx) = 0.
+    \]
+    First, note that:
+    \[
+    \ve^\top (\mA \vx) = (\vb - \mA \vx)^\top (\mA \vx) = \vb^\top (\mA \vx) - (\mA \vx)^\top (\mA \vx).
+    \]
+    The normal equations are:
+    \[
+    \mA^\top \mA \vx = \mA^\top \vb.
+    \]
+    Multiplying both sides on the left by $\vx^\top$:
+    \[
+    \vx^\top \mA^\top \mA \vx = \vx^\top \mA^\top \vb \quad \Rightarrow \quad (\mA \vx)^\top (\mA \vx) = \vx^\top \mA^\top \vb.
+    \]
+    Therefore:
+    \[
+    \ve^\top (\mA \vx) = \vb^\top (\mA \vx) - (\mA \vx)^\top (\mA \vx) = \vb^\top (\mA \vx) - \vx^\top \mA^\top \vb = 0.
+    \]
+    This shows that $\ve^\top (\mA \vx) = 0$.
+
+    \item[(d)] \textbf{Show that the sum of the individual error terms $\sum e_i$ is equal to zero.}
+
+    \textbf{Solution:}
+
+    Recall that $\ve = \vb - \mA \vx$. The sum of the errors is:
+    \[
+    \sum_{i=1}^m e_i = \ve^\top \mathbf{1},
+    \]
+    where $\mathbf{1}$ is a vector of ones.
+
+    From part (c), we have established that $\ve^\top \mA = 0$. Specifically, since the first column of $\mA$ is $\mathbf{1}$ (corresponding to the intercept $C$), we have:
+    \[
+    \ve^\top \mA = \ve^\top \begin{bmatrix} \mathbf{1} & \mathbf{t} \end{bmatrix} = \begin{bmatrix} \ve^\top \mathbf{1} & \ve^\top \mathbf{t} \end{bmatrix} = \mathbf{0}^\top.
+    \]
+    This implies that:
+    \[
+    \ve^\top \mathbf{1} = 0.
+    \]
+    Therefore:
+    \[
+    \sum_{i=1}^m e_i = 0.
+    \]
+
+    \item[(e)] \textbf{Explain why repeated measurements (at the same time) are not pathological, and construct an example to illustrate.}
+
+    \textbf{Solution:}
+
+    Repeated measurements at the same time $t_i$ are not pathological because they provide additional information about the variability and error in the measurements, without causing the columns of $\mA$ to become linearly dependent.
+
+    The design matrix $\mA$ remains of full rank (assuming at least two distinct $t_i$ values), and the normal equations can still be solved uniquely. Repeated measurements enhance the reliability of the estimated parameters by effectively weighting the repeated data points more heavily in the fitting process.
+
+    \textbf{Example:}
+
+    Suppose we have measurements at times $t = 1$, $t = 2$, and $t = 3$, with repeated measurements at each time:
+    \[
+    \begin{array}{ccc}
+    t_i & b_i \\
+    \hline
+    1 & 2.1 \\
+    1 & 1.9 \\
+    2 & 3.0 \\
+    2 & 3.2 \\
+    3 & 4.9 \\
+    3 & 5.1 \\
+    \end{array}
+    \]
+    Here, $m = 6$ measurements, with repeated observations at each time point.
+
+    The design matrix $\mA$ is:
+    \[
+    \mA = \begin{bmatrix}
+    1 & 1 \\
+    1 & 1 \\
+    1 & 2 \\
+    1 & 2 \\
+    1 & 3 \\
+    1 & 3 \\
+    \end{bmatrix}.
+    \]
+    The normal equations become:
+    \[
+    \begin{bmatrix}
+    m & \sum t_i \\
+    \sum t_i & \sum t_i^2 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    \sum b_i \\
+    \sum t_i b_i \\
+    \end{bmatrix}.
+    \]
+    Computing the sums:
+    \[
+    m = 6, \quad \sum t_i = 1 + 1 + 2 + 2 + 3 + 3 = 12, \quad \sum t_i^2 = 1^2 + 1^2 + 2^2 + 2^2 + 3^2 + 3^2 = 28,
+    \]
+    \[
+    \sum b_i = 2.1 + 1.9 + 3.0 + 3.2 + 4.9 + 5.1 = 20.2,
+    \]
+    \[
+    \sum t_i b_i = (1)(2.1) + (1)(1.9) + (2)(3.0) + (2)(3.2) + (3)(4.9) + (3)(5.1) = 2.1 + 1.9 + 6.0 + 6.4 + 14.7 + 15.3 = 46.4.
+    \]
+    The normal equations are:
+    \[
+    \begin{bmatrix}
+    6 & 12 \\
+    12 & 28 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    C \\
+    D \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    20.2 \\
+    46.4 \\
+    \end{bmatrix}.
+    \]
+    Solving these equations yields unique values for $C$ and $D$. The repeated measurements contribute to the sums and improve the estimates by reducing the impact of random errors.
+
+    This example illustrates that repeated measurements at the same time are incorporated seamlessly into the least squares framework and enhance the estimation of the model parameters.
+\end{enumerate}
+}
+
+\end{document}
