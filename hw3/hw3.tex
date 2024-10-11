@@ -1,0 +1,338 @@
+\documentclass{article}
+\usepackage{xcolor}
+\definecolor{cit}{RGB}{0,0,255}  % Define 'cit' as blue
+\usepackage{color}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{bm}  % Add this line
+
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\innp}[1]{\left\langle #1 \right\rangle}
+\newcommand{\bdot}[1]{\mathbf{\dot{ #1 }}}
+\newcommand{\OPT}{\operatorname{OPT}}
+\newcommand{\mA}{\mathbf{A}}
+\newcommand{\mP}{\mathbf{P}}
+\newcommand{\mC}{\mathbf{C}}
+\newcommand{\mI}{\mathbf{I}}
+\newcommand{\mK}{\mathbf{K}}
+\newcommand{\mLambda}{\mathbf{\Lambda}}
+\newcommand{\ones}{\mathds{1}}
+\newcommand{\zeros}{\textbf{0}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vp}{\mathbf{p}}
+\newcommand{\vf}{\mathbf{f}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\cx}{\mathcal{X}}
+\newcommand{\cy}{\mathcal{Y}}
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\cz}{\mathcal{Z}}
+\newcommand{\vxh}{\mathbf{\hat{x}}}
+\newcommand{\vyh}{\mathbf{\hat{y}}}
+\newcommand{\vzh}{\mathbf{\hat{z}}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\va}{\mathbf{a}}
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vd}{\mathbf{d}}
+\newcommand{\vy}{\mathbf{y}}
+\newcommand{\vF}{\mathbf{F}}
+\newcommand{\vvh}{\mathbf{\hat{v}}}
+\newcommand{\vb}{\mathbf{b}}
+\newcommand{\vg}{\mathbf{g}}
+\newcommand{\vu}{\mathbf{u}}
+\newcommand{\vub}{\overline{\mathbf{u}}}
+\newcommand{\vuh}{\hat{\mathbf{u}}}
+\newcommand{\veta}{\bm{\eta}}
+\newcommand{\vetah}{\bm{\hat{\eta}}}
+\newcommand{\defeq}{\stackrel{\mathrm{\scriptscriptstyle def}}{=}}
+\newcommand{\etal}{\textit{et al}.}
+\newcommand{\tnabla}{\widetilde{\nabla}}
+\newcommand{\tE}{\widetilde{E}}
+\newcommand{\rr}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}} 
+\newcommand{\inner}[2]{\langle#1,#2\rangle}
+\newcommand{\solution}{\medskip\noindent{\color{cit}\textbf{Solution:} \par \medskip}}
+\usepackage{enumitem}
+\usepackage{amsmath}  % Add this line for align environment
+\title{Problem Set 3}
+\author{Huzaifa Mustafa Unjhawala}
+\date{October 11, 2024}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1: Elastic Rod with Gravity}
+
+For the vertically-oriented elastic rod under the influence of gravity, with a fixed end at $x = 0$ and a free end at $x = 1$, the equilibrium condition is given by:
+\[
+\frac{dw(x)}{dx} = -f, \quad w(1) = 0
+\]
+where $w(x)$ is the internal force on the rod and $f$ is the gravitational force per unit length. The constitutive relation is:
+\[
+w(x) = C(x) \frac{du(x)}{dx}
+\]
+where $u(x)$ is the deformation from equilibrium in the absence of gravity, with the boundary condition $u(0) = 0$. $C(x)$ is a positive function with dimensions of force.
+
+\begin{enumerate}[label=(\alph*)]
+    \item Minimize the functional:
+    \[
+    L(u, w) = \int_0^1 \frac{w^2(x)}{2C(x)} \, dx + \int_0^1 u(x) \left( \frac{dw(x)}{dx} + f(x) \right) dx.
+    \]
+    
+    \item Show that at the minimizing $w$, $L(u, w)$ is equal to $-P(u)$, where $P(u)$ is the potential energy defined in class, thus demonstrating the duality principle.
+\end{enumerate}
+
+\solution{
+    (a) First, taking term $\int_0^1 u(x)\left(\frac{dw(x)}{dx}\right) dx$ and integrating by parts, we get:
+    \[
+    \int_0^1 u(x)\left(\frac{dw(x)}{dx}\right) dx = \left[u(x)w(x)\right]_0^1 - \int_0^1 w(x)\frac{du(x)}{dx} dx
+    \]
+    Given the boundary conditions, the first term vanishes, and we are left with:
+    \[
+    \int_0^1 u(x)\left(\frac{dw(x)}{dx}\right) dx = -\int_0^1 w(x)\frac{du(x)}{dx} dx
+    \]
+    The functional then becomes:
+    \begin{equation}
+    L(u, w) = \int_0^1 \frac{w^2(x)}{2C(x)} - w(x)\frac{du(x)}{dx} + u(x)f(x) \, dx
+    \label{eq:1}
+    \end{equation}
+    Now, we take small variations in $u$ and $w$, and compute the first variation of $L$:
+    \[
+    \delta L = \int_0^1 \left(\frac{w(x)}{C(x)} \delta w(x) - \frac{du(x)}{dx} \delta w(x) - w(x)\frac{d(\delta u(x))}{dx} + \delta u(x)f(x) \right) dx
+    \]
+    Again, to make use of our boundary conditions, we integrate by parts the term involving $w(x)\frac{d(\delta u(x))}{dx}$:
+    \[
+    \int_0^1 w(x)\frac{d(\delta u(x))}{dx} dx = \left[w(x)\delta u(x)\right]_0^1 - \int_0^1 \frac{dw(x)}{dx}\delta u(x) dx
+    \]
+    Poof, the boundary term vanishes again. Now we are left with:
+    \[
+    \delta L = \int_0^1 \left(\left(\frac{w(x)}{C(x)} - \frac{du(x)}{dx}\right)\delta w(x) + \left(\frac{dw(x)}{dx} + f(x)\right)\delta u(x)\right) dx
+    \]
+    For $\delta L = 0$ for all $\delta u$ and $\delta w$, the coefficients of $\delta u$ and $\delta w$ must vanish separately. Variation with respect to $w$ gives us the constitutive relation:
+    \[
+    \frac{w(x)}{C(x)} - \frac{du(x)}{dx} = 0 \quad \Rightarrow \quad w(x) = C(x)\frac{du(x)}{dx}
+    \]
+    Variation with respect to $u$ gives us the equilibrium equation:
+    \[
+    \frac{dw(x)}{dx} + f(x) = 0 \quad \Rightarrow \quad C(x)\frac{d^2u(x)}{dx^2} + f(x) = 0
+    \]
+    Thus, minimizing $L(u, w)$ gives us the physics equations of the problem.
+
+
+    (b) We know that $P(u)$ is the potential energy of the system, which is given by:
+    \[
+    P(u) = \int_0^1 \frac{1}{2}C(x)\left(\frac{du(x)}{dx}\right)^2 - u(x)f(x) dx
+    \]
+
+    At Minimizing $w(x) = C(x)\frac{du(x)}{dx}$, we have (below equation is from Eq.~\ref{eq:1}):
+    \[
+    L(u, w) = \int_0^1 \frac{\left(C(x)\frac{du(x)}{dx}\right)^2}{2C(x)} - C(x)\frac{du(x)}{dx}\frac{du(x)}{dx} + u(x)f(x) \, dx
+    \]
+    \[
+    = \int_0^1 -\frac{1}{2}\left(C(x)\frac{du(x)}{dx}\right)^2 + u(x)f(x) dx
+    \]
+    Therefore, $L(u, w) = -P(u)$, demonstrating the duality principle.
+}
+
+
+\section*{Problem 2: Minimal Surface Problem}
+
+In a 3D Cartesian coordinate system, consider a surface $z = u(x, y)$. The area of the surface is given by:
+\[
+A = \int_S \left| \frac{\partial \mathbf{r}}{\partial x} \times \frac{\partial \mathbf{r}}{\partial y} \right| dx \, dy
+\]
+where $\mathbf{r} = x\hat{i} + y\hat{j} + u(x, y)\hat{k}$, and $|\mathbf{v}|$ denotes the magnitude of vector $\mathbf{v}$. 
+
+Find the equation for the minimal surface with $u = u_0(x, y)$ on the boundary, similar to the case of a soap film attached to a wire rim.
+
+\textbf{Hint:} See Strang for a reference.
+
+\solution{
+First computing the individual terms $\frac{\partial \mathbf{r}}{\partial x}$ and $\frac{\partial \mathbf{r}}{\partial y}$:
+\[
+\frac{\partial \mathbf{r}}{\partial x} = \hat{i} + u_x\hat{k}, \quad \frac{\partial \mathbf{r}}{\partial y} = \hat{j} + u_y\hat{k}
+\]
+
+Then, we can take the cross product:
+\[
+\frac{\partial \mathbf{r}}{\partial x} \times \frac{\partial \mathbf{r}}{\partial y} = \hat{i}\left(u_y\right) - \hat{j}\left(u_x\right) + \hat{k}\left(1\right)
+\]
+
+The magnitude of this vector is:
+\[
+\left|\frac{\partial \mathbf{r}}{\partial x} \times \frac{\partial \mathbf{r}}{\partial y}\right| = \sqrt{u_x^2 + u_y^2 + 1}
+\]
+
+Thus, the area functional is:
+\[
+A = \int_S \sqrt{u_x^2 + u_y^2 + 1} \, dx \, dy
+\]
+
+Now, we are tasked with extremizing this functional. We can thus use the Euler-Lagrange equations:
+\[
+\frac{\partial}{\partial x}\left(\frac{\partial F}{\partial u_x}\right) + \frac{\partial}{\partial y}\left(\frac{\partial F}{\partial u_y}\right) = \frac{\partial F}{\partial u}
+\]
+where $F(u_x, u_y) = \sqrt{u_x^2 + u_y^2 + 1}$. It thus does not depend on $u$, so $\frac{\partial F}{\partial u} = 0$. Computing each of the partial derivatives, we get:
+\[
+\frac{\partial F}{\partial u_x} = \frac{u_x}{\sqrt{u_x^2 + u_y^2 + 1}}, \quad \frac{\partial F}{\partial u_y} = \frac{u_y}{\sqrt{u_x^2 + u_y^2 + 1}}
+\]
+Then computing the divergence, we get:
+\[
+\frac{\partial}{\partial x}\left(\frac{u_x}{\sqrt{u_x^2 + u_y^2 + 1}}\right) + \frac{\partial}{\partial y}\left(\frac{u_y}{\sqrt{u_x^2 + u_y^2 + 1}}\right) = 0
+\]
+Which is the minimal surface equation. This can be further simplified to:
+\[
+u_{xx}(1 + u_y^2) + u_{yy}(1 + u_x^2) - 2u_xu_yu_{xy} = 0
+\]
+Note, this solution must still satisfy the boundary conditions $u = u_0(x, y)$ on the boundary.
+}
+
+\section*{Problem 3: Sturm-Liouville Problems}
+
+In this problem, we review some major results regarding regular Sturm-Liouville problems. The general equation is:
+\[
+L[y(x)] = \lambda \sigma(x) y(x), \quad L = -\frac{d}{dx} \left( p(x) \frac{d}{dx} \right) + q(x), \quad a < x < b
+\]
+with boundary conditions:
+\[
+\beta_1 y(a) + \beta_2 y'(a) = 0, \quad \beta_3 y(b) + \beta_4 y'(b) = 0,
+\]
+where $p(x)$, $p'(x)$, $q(x)$, and $\sigma(x)$ are real and continuous in $a \leq x \leq b$, and $p(x)$, $\sigma(x) > 0$ in $a \leq x \leq b$. At least one of $\beta_1$, $\beta_2$ is nonzero, and at least one of $\beta_3$, $\beta_4$ is nonzero.
+
+You are asked to prove the following results:
+
+\begin{enumerate}[label=(\arabic*)]
+    \item The operator $L$ together with the separated boundary conditions is symmetric.
+    
+    \item The eigenvalues $\lambda$ are real.
+    
+    \item For each eigenvalue, there is only one linearly independent eigenfunction.
+    
+    \item The eigenfunctions may be chosen to be real.
+    
+    \item The eigenfunctions corresponding to different eigenvalues are orthogonal with respect to the weight function $\sigma(x)$, i.e., for different eigenvalues $\lambda_1 \neq \lambda_2$ with corresponding eigenfunctions $\phi_1(x)$, $\phi_2(x)$, we have:
+    \[
+    \int_a^b \sigma(x) \phi_1(x) \phi_2(x) \, dx = 0.
+    \]
+\end{enumerate}
+
+\solution{
+\begin{enumerate}
+    \item We need to show, for real-valued functions $u$ and $v$ satisfying the boundary conditions, that:
+    \[
+        \int_a^b v L[u] dx = \int_a^b u L[v] dx
+    \]
+    Taking $\int_a^b u L[v] dx$, and expanding $L[v]$, we get:
+    \[
+        \int_a^b u L[v] dx = \int_a^b \left(u (pv')' + u qv\right) dx
+    \]
+    Taking integration by parts on both the terms, we get:
+    \[
+        \int_a^b u L[v] dx = \left[u pv'\right]_a^b - \int_a^b u' pv' dx + \int_a^b u qv dx
+    \]
+    Taking integration by parts again on both the terms, we get:
+    \[
+        \int_a^b u L[v] dx = \left[u pv'\right]_a^b - \left[u' pv\right]_a^b + \int_a^b v(pu')' dx + \int_a^b u qv dx
+    \]
+    
+    \[
+        \int_a^b u L[v] dx = \int_a^b v L[u] dx +  p \left(u v' - u' v\right) \Big|_a^b
+    \]
+    Rewriting this, we get:
+    \[
+        \int_a^b \left(u L[v] - v L[u]\right) dx = \int_a^b \frac{d}{dx} \left(p \left(u v' - u' v\right)\right) dx
+    \]
+    This gives us:
+    \[
+        uL[v] - vL[u] = \frac{d}{dx} \left(p \left(u v' - u' v\right)\right)
+    \]
+    Now, assume that $u$ and $v$ satisfy the boundary conditions. Then we have $L[u] = -\lambda \sigma u$ and $L[v] = -\lambda \sigma v$. Additionally the boundary conditions can be written as $u'(a) = \frac{-\beta_1}{\beta_2} u(a)$ and $v'(a) = \frac{-\beta_1}{\beta_2} v(a)$ and similarly for $b$. Thus, we have:
+    \[
+        uL[v] - vL[u] = \lambda \sigma \left(u v - v u\right) = 0
+    \]
+    Thus $\int_a^b \left(u L[v] - v L[u]\right) dx = 0$, and $L$ is symmetric.
+
+    \item Suppose that $\lambda$ is an eigenvalue and complex and $y(x)$ is a corresponding complex eigenfunction. Then, we have, $\lambda = \mu + i\nu$,  and $y(x) = u(x) + iv(x)$. Taking complex conjugate of $L[y] = \lambda \sigma y$, we get:
+    \[
+        L[\bar{y}] = \bar{\lambda} \sigma \bar{y}
+    \]
+    Since we proved symmetry in part (a), we have:
+    \[
+        \int_a^b \bar{y} L[y] dx = \int_a^b y L[\bar{y}] dx
+    \]
+    Substituting $L[\bar{y}] = \bar{\lambda} \sigma \bar{y}$ and comparing both sides, we get $\bar{\lambda} = \lambda$, thus $\lambda$ is real.
+    Plugging in the complex conjugate we get:
+    \[
+        \int_a^b \bar{y} \left(\lambda \sigma y\right) dx = \int_a^b y \left(\bar{\lambda} \sigma \bar{y}\right) dx
+    \]
+    Now, if we apply $y\bar{y} = u^2 + v^2$ and $\sigma > 0$, we get:
+    \[
+        \left( \lambda - \bar{\lambda} \right) \int_a^b \sigma y\bar{y} dx = 0
+    \]
+    Since $\sigma > 0$ and $y\bar{y} > 0$, we must have $\lambda = \bar{\lambda}$, and $\lambda$ is real.
+
+    \item We can prove this by contradiction. Suppose that $\lambda$ has two eigenfunctions $y_1(x)$ and $y_2(x)$. Then, we have:
+    \[
+        L[y_1] = -\lambda \sigma y_1, \quad L[y_2] = -\lambda \sigma y_2
+    \]
+    Thus $\lambda = - \frac{L[y_1]}{y_1}$. Using this, we can write:
+    \[
+        L[y_2] = - \frac{L[y_1]}{y_1} y_2
+    \]
+    \[
+        y_1 L[y_2] - y_2 L[y_1] = 0
+    \]
+    By the lagrange identity we derived in part (a), we have:
+    \[
+        y_1 L[y_2] - y_2 L[y_1] = \frac{d}{dx} \left(p \left(y_1 y_2' - y_2 y_1'\right)\right)
+    \]
+    Therefore $\frac{d}{dx} \left(p \left(y_1 y_2' - y_2 y_1'\right)\right) = 0$, and $p \left(y_1 y_2' - y_2 y_1'\right) = C$, for some constant $C$. For the boundary conditions to be satisfied, we must have $C = 0$, and thus $y_1 y_2' = y_2 y_1'$. This implies that $y_1$ and $y_2$ are linearly dependent. Thus a single eigenvalue has a unique linearly independent eigenfunction.
+
+    \item We can prove this by contradiction. Suppose that $y(x)$ is a complex eigenfunction corresponding to eigenvalue $\lambda$. Then, we have:
+    \[
+        L[y] = -\lambda \sigma y
+    \]
+    Writing $y(x) = u(x) + iv(x)$, we get:
+    \[
+        L[y] = L[u] + iL[v] = -\lambda \sigma (u + iv)
+    \]
+    Equating real and imaginary parts, we get:
+    \[
+        L[u] = -\lambda \sigma u, \quad L[v] = -\lambda \sigma v
+    \]
+    Thus the real and complex parts of a complex eigenfunction are both eigenfunctions that satisfy Strum-Liouville. Now we show whether they satisfy the boundary conditions:
+    \[
+        \beta_1 (u(a) + iv(a)) + \beta_2 (u'(a) + iv'(a)) = 0
+    \]
+    \[
+        \beta_1 (u(b) + iv(b)) + \beta_2 (u'(b) + iv'(b)) = 0
+    \]
+    Hence:
+    \[
+        \beta_1 u(a) + \beta_2 u'(a) = 0, \quad \beta_1 u(b) + \beta_2 u'(b) = 0
+    \]
+    \[
+        \beta_3 v(a) + \beta_4 v'(a) = 0, \quad \beta_3 v(b) + \beta_4 v'(b) = 0
+    \]
+    Thus $u(x)$ and $v(x)$ satisfy also the boundary conditions. They also have the same eigenvalue $\lambda$, and thus they must be linearly dependent. Therefore, $v = cu$. Then, $y = u + icu = (1+ic)u = c_0u$. Thus $y(x)$ is real which contradicts our assumption. Therefore, $y(x)$ must be real.
+
+    \item Lets consider two eigenfunctions $y_1(x)$ and $y_2(x)$ corresponding to eigenvalues $\lambda_1$ and $\lambda_2$. Then, we have:
+    \[
+        L[y_1] = -\lambda_1 \sigma y_1, \quad L[y_2] = -\lambda_2 \sigma y_2
+    \]
+    Multiplying the first equation by $y_2$ and the second by $y_1$ and subtracting, we get:
+    \[
+        y_1 L[y_2] - y_2 L[y_1] = \lambda_1 \sigma y_1 y_2 - \lambda_2 \sigma y_2 y_1 = (\lambda_1 - \lambda_2) \sigma y_1 y_2
+    \]
+    Using derivation from part (a), we have:
+    \[
+        0 = \left(\lambda_1 - \lambda_2\right) \int_a^b \sigma y_1 y_2 dx
+    \]
+    Since $\lambda_1 \neq \lambda_2$, we must have $\int_a^b \sigma y_1 y_2 dx = 0$. Therefore the eigenfunctions are orthogonal with respect to the weight function $\sigma(x)$.
+\end{enumerate}
+
+
+\end{document}
