@@ -1,0 +1,774 @@
+\documentclass{article}
+\usepackage{xcolor}
+\definecolor{cit}{RGB}{0,0,255}  % Define 'cit' as blue
+\usepackage{color}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{bm}  % Add this line
+
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\innp}[1]{\left\langle #1 \right\rangle}
+\newcommand{\bdot}[1]{\mathbf{\dot{ #1 }}}
+\newcommand{\OPT}{\operatorname{OPT}}
+\newcommand{\mA}{\mathbf{A}}
+\newcommand{\mP}{\mathbf{P}}
+\newcommand{\mC}{\mathbf{C}}
+\newcommand{\mI}{\mathbf{I}}
+\newcommand{\mK}{\mathbf{K}}
+\newcommand{\mLambda}{\mathbf{\Lambda}}
+\newcommand{\ones}{\mathds{1}}
+\newcommand{\zeros}{\textbf{0}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vp}{\mathbf{p}}
+\newcommand{\vf}{\mathbf{f}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\cx}{\mathcal{X}}
+\newcommand{\cy}{\mathcal{Y}}
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\cz}{\mathcal{Z}}
+\newcommand{\vxh}{\mathbf{\hat{x}}}
+\newcommand{\vyh}{\mathbf{\hat{y}}}
+\newcommand{\vzh}{\mathbf{\hat{z}}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\ve}{\mathbf{e}}
+\newcommand{\va}{\mathbf{a}}
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vd}{\mathbf{d}}
+\newcommand{\vy}{\mathbf{y}}
+\newcommand{\vF}{\mathbf{F}}
+\newcommand{\vvh}{\mathbf{\hat{v}}}
+\newcommand{\vb}{\mathbf{b}}
+\newcommand{\vg}{\mathbf{g}}
+\newcommand{\vu}{\mathbf{u}}
+\newcommand{\vub}{\overline{\mathbf{u}}}
+\newcommand{\vuh}{\hat{\mathbf{u}}}
+\newcommand{\veta}{\bm{\eta}}
+\newcommand{\vetah}{\bm{\hat{\eta}}}
+\newcommand{\defeq}{\stackrel{\mathrm{\scriptscriptstyle def}}{=}}
+\newcommand{\etal}{\textit{et al}.}
+\newcommand{\tnabla}{\widetilde{\nabla}}
+\newcommand{\tE}{\widetilde{E}}
+\newcommand{\rr}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\bmat}[1]{\begin{bmatrix}#1\end{bmatrix}} 
+\newcommand{\inner}[2]{\langle#1,#2\rangle}
+\newcommand{\solution}{\medskip\noindent{\color{cit}\textbf{Solution:} \par \medskip}}
+\usepackage{enumitem}
+\usepackage{amsmath}  % Add this line for align environment
+\title{Problem Set 4}
+\author{Huzaifa Mustafa Unjhawala}
+\date{October 28, 2024}
+
+\begin{document}
+
+\maketitle
+
+\textbf{3.3} Classify all the singular points (finite and infinite) of the following differential equations:
+
+\begin{enumerate}[label=(\alph*)]
+    \item $x (1 - x) y'' + [c - (a + b + 1)x] y' - aby = 0$ \quad (hypergeometric equation)
+    \solution{ Rewriting the equation in standard form, we get:
+    \begin{align*}
+        y'' + \frac{c - (a+b+1)x}{x(1-x)} y' - \frac{ab}{x(1-x)} y = 0
+    \end{align*}
+    Thus we have $p(x) = \frac{c - (a+b+1)x}{x(1-x)}$ and $q(x) = \frac{ab}{x(1-x)}$. The singular points occur when $p(x)$ and $q(x)$ are undefined, i.e. when $x = 0$ and $x = 1$. To examine the behavior at $x = \infty$, we substitute $z = \frac{1}{x}$ and analyze the behavior of the equation as $z \to 0$. We get $\infty$ also as a singular point. These are all regular singular points since $(x-x_0) p(x)$ and $(x-x_0)^2 q(x)$ are analytic at $x = 0$, $x = 1$. For $\infty$ we check for $xp(x)$ and $x^2q(x)$ to be finite. This is the case and thus $\infty$ is also a regular singular point.
+    }
+    \item $x y'' + (b - x) y' - a y = 0$ \quad (Kummers confluent hypergeometric equation)
+    \solution{
+        In standard form we can write this as:
+        \begin{align*}
+            y'' + \frac{b-x}{x} y' - \frac{a}{x} y = 0
+        \end{align*}
+        Thus we have $p(x) = \frac{b-x}{x}$ and $q(x) = -\frac{a}{x}$. The singular points occur when $p(x)$ and $q(x)$ are undefined, i.e. when $x = 0$. Here again this is a regular singular point since $(x-x_0) p(x)$ and $(x-x_0)^2 q(x)$ are analytic at $x = 0$. For $\infty$ we check for $xp(x)$ and $x^2q(x)$ to be finite. This is the case and thus $\infty$ is also a regular singular point. For the infinite singular points, we have $x = \infty$. As $x \to \infty$, we have $p(x) \to -1$ and $q(x) \to 0$. Multiplying $p(x)$ with $x$, we get $xp(x) = b-x \to -\infty$. Thus $x = \infty$ is an irregular singular point.
+    }
+
+\end{enumerate}
+\textbf{3.6.} Find the Taylor series about $x = 0$ of the solution to the initial-value problems:
+
+\begin{enumerate}[label=(\alph*)]
+    \item $y'' - 2xy' + 8y = 0$, \quad $y(0) = 0$, \quad $y'(0) = 4$. \\
+    \solution{ First, we will assume a power series representation of each of our terms
+           Assume \( y(x) \) can be expressed as a power series centered at \( x = 0 \):
+           \[
+           y(x) = \sum_{n=0}^{\infty} a_n x^n.
+           \]
+           Similarly, the derivatives are:
+           \[
+           y'(x) = \sum_{n=1}^{\infty} n a_n x^{n-1}, \quad y''(x) = \sum_{n=2}^{\infty} n(n-1) a_n x^{n-2}.
+           \]
+           Substituting the series expressions:
+           \[
+           \sum_{n=2}^{\infty} n(n-1)a_n x^{n-2} - 2x \sum_{n=1}^{\infty} n a_n x^{n-1} + 8 \sum_{n=0}^{\infty} a_n x^n = 0.
+           \]
+            Simplifying each of the terms, we get: \\
+           - First term (\( y'' \)):
+             Re-indexing to match powers of \( x \), let \( k = n-2 \):
+             \[
+             y'' = \sum_{k=0}^{\infty} (k+2)(k+1) a_{k+2} x^k.
+             \]
+        
+           - Second term (\( -2x y' \)):
+             \[
+             -2x y' = -2 \sum_{n=1}^{\infty} n a_n x^n = -2 \sum_{k=0}^{\infty} (k+1) a_{k+1} x^k.
+             \]
+        
+           - Third term (\( 8y \)):
+             \[
+             8y = 8 \sum_{n=0}^{\infty} a_n x^n.
+             \]
+           Aligning all series to powers of \( x^k \):
+           \[
+           \sum_{k=0}^{\infty} \left[(k+2)(k+1) a_{k+2} - 2(k+1) a_{k+1} + 8 a_k \right] x^k = 0.
+           \]
+           Since this equation must hold for all \( x \), the coefficients of each \( x^k \) must be zero:
+           \[
+           (k+2)(k+1) a_{k+2} + (8 - 2k) a_k = 0.
+           \]
+           Solving for \( a_{k+2} \):
+           \[
+           a_{k+2} = \frac{2(k - 4)}{(k+2)(k+1)} a_k.
+           \]
+            Now, applying the initial conditions, we get:
+           \[
+           y(0) = a_0 = 0, \quad y'(0) = a_1 = 4.
+           \]
+           Calculating the coefficients \( a_n \) recursively we get:
+           \[
+           \begin{aligned}
+           & a_2 = 0, \\
+           & a_3 = -4, \\
+           & a_4 = 0, \\
+           & a_5 = \frac{2}{5}, \\
+           & a_6 = 0, \\
+           & a_7 = \frac{1}{10}, \\
+           & a_8 = 0, \\
+           & a_9 = \frac{1}{30}.
+           \end{aligned}
+           \] 
+           Using the computed coefficients, the Taylor series solution is:
+           \[
+           y(x) = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + a_4 x^4 + a_5 x^5 + a_6 x^6 + a_7 x^7 + a_8 x^8 + a_9 x^9 + \dots
+           \]
+           Substituting values:
+           \[
+           y(x) = 4x - 4x^3 + \frac{2}{5} x^5 + \frac{1}{10} x^7 + \frac{1}{30} x^9 + \dots
+           \] 
+           This can be written in terms of the confluent hypergeometric function \( M(a, b, x) \):
+           \[
+           y(x) = 4x \cdot M\left(-\frac{3}{2}, \frac{3}{2}, x^2 \right).
+           \]
+        
+           Finally, we verify the solution with the initial conditions:
+           - At \( x = 0 \):
+              \[
+              y(0) = 0.
+              \]
+            - Derivative at \( x = 0 \):
+              \[
+              y'(x) = 4 - 12x^2 + \dots, \quad y'(0) = 4.
+              \]
+            Thus, the solution satisfies the initial conditions \( y(0) = 0 \) and \( y'(0) = 4 \).
+    
+        
+    }
+\end{enumerate}
+
+
+\textbf{3.8.} How many terms in the Taylor series solution to
+
+\[
+y''' = x^3 y, \quad y(0) = 1, \quad y'(0) = 0, \quad y''(0) = 0
+\]
+
+are needed to evaluate $\int_0^1 y(x) dx$ correct to three decimal places?
+
+\solution{
+We first start by finding the Taylor series solution to the differential equation like how we did so in the previous problem:
+Given the differential equation:
+\[
+y''' = x^3 y, \quad y(0) = 1, \quad y'(0) = 0, \quad y''(0) = 0
+\]
+we assume a power series solution centered at \( x = 0 \):
+\[
+y(x) = \sum_{n=0}^{\infty} a_n x^n
+\]
+Using the initial conditions:
+\[
+y(0) = a_0 = 1, \quad y'(0) = a_1 = 0, \quad y''(0) = 2! a_2 = 0 \Rightarrow a_2 = 0
+\]
+we need to find a recurrence relation for the coefficients \( a_n \). Differentiating \( y(x) \) and substituting into the differential equation gives:
+\[
+y''' = x^3 y
+\]
+\[
+\sum_{n=3}^{\infty} n(n-1)(n-2) a_n x^{n-3} = x^3 \sum_{n=0}^{\infty} a_n x^n
+\]
+\[
+\sum_{n=0}^{\infty} (n+3)(n+2)(n+1) a_{n+3} x^n = \sum_{n=3}^{\infty} a_{n-3} x^n
+\]
+By equating the coefficients of like powers of \( x^n \), we obtain the recurrence relation:
+\[
+(n+3)(n+2)(n+1) a_{n+3} = a_n \Rightarrow a_{n+3} = \frac{a_n}{(n+3)(n+2)(n+1)}
+\]
+
+Using this recurrence relation and the initial coefficients, we find:
+\[
+a_3 = \frac{a_0}{6} = \frac{1}{6}, \quad a_6 = \frac{a_3}{120} = \frac{1}{720}, \quad a_9 = \frac{a_6}{504} = \frac{1}{362880}
+\]
+\[
+a_{3k} = \frac{1}{(3k)!} \quad \text{for } k=0,1,2,\dots
+\]
+Thus, the Taylor series solution is:
+\[
+y(x) = \sum_{k=0}^{\infty} \frac{x^{3k}}{(3k)!}
+\]
+
+Now we can integrate \( y(x) \):
+\[
+\int_0^1 y(x) \, dx = \sum_{k=0}^{\infty} \int_0^1 \frac{x^{3k}}{(3k)!} \, dx = \sum_{k=0}^{\infty} \frac{1}{(3k)!} \cdot \frac{1}{3k+1}
+\]
+Now, we will compute the partial sums up to a certain number of terms and estimate the remainder to ensure the error is less than 0.0005 (for three-decimal-place accuracy).
+
+\[
+k=0: \quad \frac{1}{(0)!} \cdot \frac{1}{1} = 1
+\]
+\[
+k=1: \quad \frac{1}{(3)!} \cdot \frac{1}{4} = \frac{1}{6} \cdot \frac{1}{4} = \frac{1}{24} \approx 0.0416667
+\]
+\[
+k=2: \quad \frac{1}{(6)!} \cdot \frac{1}{7} = \frac{1}{720} \cdot \frac{1}{7} \approx 0.0001984
+\]
+
+this gives us the partial sum:
+\[
+S = 1 + 0.0416667 + 0.0001984 = 1.0418651
+\]
+\[
+\text{Next term} \approx \frac{1}{(9)!} \cdot \frac{1}{10} \approx \frac{1}{362880} \cdot \frac{1}{10} \approx 2.7557 \times 10^{-7}
+\]
+The next term is much smaller than 0.0005, so the error introduced by truncating after \( k=2 \) is acceptable for three-decimal-place accuracy.
+
+}
+\textbf{3.24.} Find series expansions of all the solutions to the following differential equations about $x = 0$. Try to sum in closed form any infinite series that appear.
+
+\begin{enumerate}[label=(\alph*)]
+    \item $2xy'' - y' + x^2y = 0$  \\
+    \solution{
+        Once again, (almost way too often) we start by assuming a power series solution of the form:
+        \[
+        y(x) = \sum_{n=0}^{\infty} a_n x^n
+        \]
+        Our goal is to determine the coefficients \( a_n \).
+        
+        First we will get the power series for  derivatives of \( y(x) \):
+        \[
+        y'(x) = \sum_{n=1}^{\infty} n a_n x^{n-1}
+        \]
+        \[
+        y''(x) = \sum_{n=2}^{\infty} n(n-1) a_n x^{n-2}
+        \]        
+        Substitute \( y(x) \), \( y'(x) \), and \( y''(x) \) into the differential equation:
+        \[
+        2x y'' - y' + x^2 y = 0
+        \]
+        Substituting the series expressions:
+        \[
+        2x \left( \sum_{n=2}^{\infty} n(n-1) a_n x^{n-2} \right) - \left( \sum_{n=1}^{\infty} n a_n x^{n-1} \right) + x^2 \left( \sum_{n=0}^{\infty} a_n x^n \right) = 0
+        \]
+        Now we will simplify each term 
+        
+        1. First Term \((2x y'')\):
+           \[
+           2x \left( \sum_{n=2}^{\infty} n(n-1) a_n x^{n-2} \right) = 2 \sum_{n=2}^{\infty} n(n-1) a_n x^{n-1}
+           \]
+        
+        2. Second Term \((-y')\):
+           \[
+           - \sum_{n=1}^{\infty} n a_n x^{n-1}
+           \]
+        
+        3. Third Term \((x^2 y)\):
+           \[
+           x^2 \left( \sum_{n=0}^{\infty} a_n x^n \right) = \sum_{n=0}^{\infty} a_n x^{n+2}
+           \]
+        
+        To combine like terms, adjust indices so that all sums are in powers of \( x^k \):
+        
+        - First Term: Let \( k = n - 1 \):
+          \[
+          2 \sum_{k=1}^{\infty} (k+1) k a_{k+1} x^k
+          \]
+        
+        - Second Term: Let \( k = n - 1 \):
+          \[
+          - \sum_{k=0}^{\infty} (k+1) a_{k+1} x^k
+          \]
+        
+        - Third Term: Let \( k = n + 2 \), so \( n = k - 2 \):
+          \[
+          \sum_{k=2}^{\infty} a_{k-2} x^k
+          \]
+    
+        
+        Combine the adjusted sums:
+        \[
+        \sum_{k=0}^{\infty} \left[ 2 (k+1) k a_{k+1} - (k+1) a_{k+1} + a_{k-2} \right] x^k = 0
+        \]
+        
+        Simplify the coefficient:
+        \[
+        2 (k+1) k a_{k+1} - (k+1) a_{k+1} = (k+1)(2k - 1) a_{k+1}
+        \]
+        So the combined sum becomes:
+        \[
+        \sum_{k=0}^{\infty} \left[ (k+1)(2k - 1) a_{k+1} + a_{k-2} \right] x^k = 0
+        \]
+        
+        Since the sum equals zero for all \( x \), the coefficients must satisfy:
+        \[
+        (k+1)(2k - 1) a_{k+1} + a_{k-2} = 0
+        \]
+        Rewriting:
+        \[
+        a_{k+1} = -\frac{a_{k-2}}{(k+1)(2k - 1)}
+        \]
+    
+        
+        We need initial values to start the recurrence. Let's choose:
+        \[
+        a_0 = C \quad (\text{arbitrary constant}), \quad a_1 = 0 \quad (\text{determined from the recurrence relation for } k=0)
+        \]
+        
+        For \( k=0 \):
+        \[
+        (0+1)(2 \cdot 0 - 1) a_1 + a_{-2} = 0 \Rightarrow -1 \cdot a_1 = 0 \Rightarrow a_1 = 0
+        \]
+        
+        For \( k=1 \):
+        \[
+        (1+1)(2 \cdot 1 - 1) a_2 + a_{-1} = 0 \Rightarrow 2 \cdot 1 \cdot a_2 + 0 = 0 \Rightarrow a_2 = 0
+        \]
+        But \( a_2 \) can be arbitrary because \( a_{-1} = 0 \), so set \( a_2 = D \) (another arbitrary constant).
+        
+        Now we compute the coefficients step by step.
+        
+        - Coefficients depending on \( a_0 \):
+          \[
+          a_0: \text{Given}
+          \]
+          \[
+          a_1 = 0
+          \]
+          \[
+          a_3 = -\frac{a_0}{3 \cdot 3} = -\frac{a_0}{9}
+          \]
+          \[
+          a_5 = -\frac{a_2}{5 \cdot 7} = -\frac{a_2}{35}
+          \]
+        
+        - Coefficients depending on \( a_2 \):
+          \[
+          a_2: \text{Given}
+          \]
+          \[
+          a_4 = 0
+          \]
+          \[
+          a_6 = -\frac{a_3}{6 \cdot 9} = \frac{a_0}{486}
+          \]
+        
+        The general solution is a linear combination of two linearly independent solutions:
+        
+        - First Solution (depends on \( a_0 \)):
+          \[
+          y_1(x) = a_0 \left[ 1 - \frac{x^3}{9} + \frac{x^6}{486} - \cdots \right]
+          \]
+        
+        - Second Solution (depends on \( a_2 \)):
+          \[
+          y_2(x) = a_2 x^2 \left[ 1 - \frac{x^3}{35} + \frac{x^6}{2835} - \cdots \right]
+          \]
+
+          I don't know a closed form for this series.   
+    }
+\end{enumerate}
+
+\textbf{3.27.} For the nth order schrodinger equation $\frac{d^n}{dx^n} = Q(x)y$ find the leading behavior of $y(x)$ near an irregular singular point $x_0$.
+
+\solution{
+I didn't know how to complete this but here is my attempt:
+
+We look for a solution that captures the leading behavior near \( x_0 \). A common approach is to assume an exponential form:
+\[
+y(x) \sim \exp \left[ A(x - x_0)^{-\alpha} \right],
+\]
+where \( A \) and \( \alpha \) are constants to be determined.
+
+Let \( z = x - x_0 \). Then \( y(x) \) becomes:
+\[
+y(z) \sim \exp(A z^{-\alpha}).
+\]
+
+Compute the first derivative:
+\[
+y' = y \cdot (-\alpha A z^{-\alpha - 1}).
+\]
+
+Similarly, the \( n \)-th derivative is dominated by:
+\[
+y^{(n)} \sim y \cdot (-\alpha A z^{-\alpha - 1})^n.
+\]
+
+
+Substitute \( y^{(n)} \) and \( y \) into the differential equation:
+\[
+y^{(n)} = Q(x) y.
+\]
+
+This yields:
+\[
+y \cdot (-\alpha A z^{-\alpha - 1})^n = K z^m y.
+\]
+
+Cancel \( y \) from both sides:
+\[
+(-\alpha A z^{-\alpha - 1})^n = K z^m.
+\]
+
+Simplify the left side:
+\[
+(-\alpha A)^n z^{-n(\alpha + 1)} = K z^m.
+\]
+
+Equate the exponents of \( z \):
+\[
+-n(\alpha + 1) = m \Rightarrow n(\alpha + 1) = -m.
+\]
+
+Solve for \( \alpha \):
+\[
+\alpha = \frac{m}{n} - 1.
+\]
+
+Equate the coefficients:
+\[
+(-\alpha A)^n = K.
+\]
+
+Solve for \( A \):
+\[
+A = -\frac{K^{1/n}}{\alpha}.
+\]
+
+Note that \( K^{1/n} \) denotes the \( n \)-th root of \( K \), and there are \( n \) possible \( n \)-th roots corresponding to the \( n \) linearly independent solutions.
+
+Substitute \( \alpha \) and \( A \) back into \( y(x) \):
+\[
+y(x) \sim \exp \left[ A(x - x_0)^{-\alpha} \right] = \exp \left[ -\frac{K^{1/n}}{\alpha} (x - x_0)^{-\left(\frac{m}{n} - 1\right)} \right].
+\]
+
+Simplify the exponent:
+\[
+-\alpha = 1 - \frac{m}{n} = \frac{n - m}{n}.
+\]
+
+So the exponent becomes:
+\[
+(x - x_0)^{\frac{n - m}{n}}.
+\]
+
+}
+
+\textbf{3.33(c)}Find the leading behaviors as $x \to 0^+$ for $y'' = \sqrt{x} y$
+
+\solution{    
+    As \( x \to 0^+ \), the term \( x \) tends to zero. This suggests that the equation simplifies:
+    \[
+    y'' \approx 0,
+    \]
+    which implies that \( y(x) \) is approximately linear near \( x = 0 \):
+    \[
+    y(x) \approx A x + B,
+    \]
+    where \( A \) and \( B \) are constants.
+    
+    To find more precise leading behavior, we'll consider the next term in the approximation. Let's write:
+    \[
+    y(x) = A x + B + \phi(x),
+    \]
+    where \( \phi(x) \) represents a small correction to the linear approximation.
+    
+    Substitute \( y(x) \) into the original equation:
+    \[
+    (A x + B + \phi)'' = \sqrt{x} (A x + B + \phi).
+    \]
+    
+    Compute the derivatives:
+    \[
+    (A x + B + \phi)'' = \phi''(x),
+    \]
+    since the second derivative of \( A x + B \) is zero.
+    
+    The equation becomes:
+    \[
+    \phi''(x) = \sqrt{x} (A x + B + \phi(x)).
+    \]
+    Since \( \phi(x) \) is small, we can approximate:
+    \[
+    \phi''(x) \approx \sqrt{x} (A x + B).
+    \]
+    
+    Integrate \( \phi''(x) \) twice to find \( \phi(x) \):
+    \[
+    \phi''(x) = A x^{3/2} + B x^{1/2}.
+    \]
+    
+    \textit{First Integration}:
+    \[
+    \phi'(x) = \int \phi''(x) \, dx = A \int x^{3/2} \, dx + B \int x^{1/2} \, dx + C_1,
+    \]
+    where \( C_1 \) is a constant of integration.
+    
+    Compute the integrals:
+    \[
+    \phi'(x) = A \left( \frac{2}{5} x^{5/2} \right) + B \left( \frac{2}{3} x^{3/2} \right) + C_1.
+    \]
+    
+    \textit{Second Integration}:
+    \[
+    \phi(x) = \int \phi'(x) \, dx = A \left( \frac{2}{5} \cdot \frac{2}{7} x^{7/2} \right) + B \left( \frac{2}{3} \cdot \frac{2}{5} x^{5/2} \right) + C_1 x + C_2,
+    \]
+    where \( C_2 \) is another constant of integration.
+    
+    Simplify the constants:
+    \[
+    \phi(x) = A \frac{4}{35} x^{7/2} + B \frac{4}{15} x^{5/2} + C_1 x + C_2.
+    \]
+    Since \( C_1 x + C_2 \) can be absorbed into the terms \( A x \) and \( B \), we focus on the leading non-linear terms.
+    
+    Assembling, we get the approximate solution near \( x \to 0^+ \) is:
+    \[
+    y(x) \approx A x + B + A \frac{4}{35} x^{7/2} + B \frac{4}{15} x^{5/2}.
+    \]
+    As \( x \to 0^+ \), the terms involving \( x^{5/2} \) and \( x^{7/2} \) become negligible compared to the linear terms.
+    
+    
+    Therefore, the leading behavior of the solutions as \( x \to 0^+ \) is linear:
+    \[
+    y(x) \approx A x + B \quad \text{as } x \to 0^+.
+    \]
+}
+
+\textbf{3.35. }Obtain the full asymptotic behaviors for small \( x \) of the solutions to the equation 
+\[
+x^2y'' + (2x+1)y' + x^2[e^{2/x} + 1]y = 0
+\]
+
+\solution{
+    
+    \textbf{Case 1: As \( x \to 0^+ \)}\\
+    
+    As \( x \to 0^+ \), the exponential term \( e^{2/x} \) grows exponentially large because \( 2/x \to +\infty \). Therefore, the term \( x^2 e^{2/x} y \) dominates the differential equation, and the other terms become negligible in comparison.
+    
+    Neglecting less significant terms, the equation simplifies to:
+    \[
+    x^2 e^{2/x} y \approx 0.
+    \]
+    Since \( x^2 e^{2/x} \) is positive and diverges to infinity, the only way for this product to approach zero is if \( y \to 0 \).
+    
+    To counteract the exponential growth let use
+    \[
+    y(x) \sim A e^{-2/x},
+    \]
+    where \( A \) is a constant. This form ensures that \( e^{2/x} y \) remains finite as \( x \to 0^+ \).
+    
+    Computing the derivatives:
+    \[
+    y'(x) = \frac{2}{x^2} A e^{-2/x},
+    \]
+    \[
+    y''(x) = \left(\frac{4}{x^4} - \frac{4}{x^3}\right) A e^{-2/x}.
+    \]
+    Substitute \( y \), \( y' \), and \( y'' \) back into the original equation. After simplifying, we find that all terms balance appropriately, confirming that the leading behavior is indeed \( y(x) \sim A e^{-2/x} \).
+    
+    \textbf{Case 2: As \( x \to 0^- \)}\\
+    For \( x \to 0^- \), \( 2/x \to -\infty \), so \( e^{2/x} \to 0 \). The term \( x^2 e^{2/x} y \) becomes negligible compared to other terms.
+
+    Neglect the negligible term:
+    \[
+    x^2 y'' + (2x + 1) y' + x^2 y \approx 0.
+    \]
+
+    
+    Assuming \( y(x) \) behaves like a power of \( x \), let \( y(x) = x^\lambda \). Compute the derivatives:
+    \[
+    y'(x) = \lambda x^{\lambda - 1}, \quad y''(x) = \lambda (\lambda - 1) x^{\lambda - 2}.
+    \]
+
+    
+    Substitute \( y \), \( y' \), and \( y'' \):
+    \[
+    x^2 \left[\lambda (\lambda - 1) x^{\lambda - 2}\right] + (2x + 1) \left[\lambda x^{\lambda - 1}\right] + x^2 x^{\lambda} = 0.
+    \]
+    
+    Simplify:
+    \[
+    \lambda (\lambda - 1) x^{\lambda} + \lambda (2x + 1) x^{\lambda - 1} + x^{\lambda + 2} = 0.
+    \]
+    
+    As \( x \to 0^- \), the \( x^{\lambda + 2} \) term becomes negligible. The equation simplifies to:
+    \[
+    \lambda (\lambda - 1) x^{\lambda} + \lambda (2x + 1) x^{\lambda - 1} \approx 0.
+    \]
+    
+    For the equation to hold for small \( x \), the terms must balance. This is possible if \( \lambda = 0 \), leading to:
+    \[
+    y(x) \sim B,
+    \]
+    where \( B \) is a constant.
+    
+    Combining both cases, the full asymptotic behaviors of the solutions as \( x \to 0 \) are:
+    
+    - As \( x \to 0^+ \):
+      \[
+      y(x) \sim A e^{-2/x}, \quad \text{where } A \text{ is a constant}.
+      \]
+    
+    - As \( x \to 0^- \):
+      \[
+      y(x) \sim B, \quad \text{where } B \text{ is a constant}.
+      \]
+    
+    The solutions decay exponentially for positive small \( x \) due to the dominant exponential term in the differential equation and approach a constant for negative small \( x \) where the exponential term becomes negligible.
+    
+}
+
+\textbf{3.38.}
+
+
+\textbf{3.49(c)} Find the leading behavior as $x \to +\infty$ of the general solution for $y'' + xy= x^5$. \\
+\solution{
+
+First, consider the homogeneous part of the differential equation:
+\[
+y'' + x y = 0.
+\]
+This is a second-order linear differential equation with variable coefficients. It resembles the Airy differential equation. Recall that the standard Airy equation is:
+\[
+y'' - x y = 0.
+\]
+
+By making a substitution, we can transform our equation into the standard form.
+Let:
+\[
+z = -x.
+\]
+Then, the equation becomes:
+\[
+\frac{d^2 y}{d z^2} - z y = 0.
+\]
+This is the standard Airy equation. Therefore, the general solution to the homogeneous equation is:
+\[
+y_{\text{hom}}(x) = c_1 \, \text{Ai}(-x) + c_2 \, \text{Bi}(-x),
+\]
+where \( \text{Ai} \) and \( \text{Bi} \) are the Airy functions of the first and second kind, respectively, and \( c_1 \) and \( c_2 \) are constants.
+
+
+As \( x \to +\infty \), \( -x \to -\infty \). The Airy functions for large negative arguments have oscillatory behavior with decreasing amplitude.
+
+\[
+\text{Ai}(z) \sim \frac{1}{\sqrt{\pi} (-z)^{1/4}} \sin \left( \frac{2}{3} (-z)^{3/2} + \frac{\pi}{4} \right),
+\]
+\[
+\text{Bi}(z) \sim \frac{1}{\sqrt{\pi} (-z)^{1/4}} \cos \left( \frac{2}{3} (-z)^{3/2} + \frac{\pi}{4} \right).
+\]
+
+Substituting back \( z = -x \):
+\[
+\text{Ai}(-x) \sim \frac{1}{\sqrt{\pi} x^{1/4}} \sin \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right),
+\]
+\[
+\text{Bi}(-x) \sim \frac{1}{\sqrt{\pi} x^{1/4}} \cos \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right).
+\]
+
+Therefore, the homogeneous solution for large \( x \) is:
+\[
+y_{\text{hom}}(x) \approx \frac{1}{\sqrt{\pi} x^{1/4}} \left[ c_1 \sin \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right) + c_2 \cos \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right) \right].
+\]
+This oscillatory term decays as \( x^{-1/4} \) when \( x \to +\infty \).
+
+Next, we seek a particular solution \( y_p(x) \) to the nonhomogeneous equation:
+\[
+y'' + x y = x^5.
+\]
+Since the right-hand side is \( x^5 \), which grows with \( x \), we assume a polynomial solution of the form:
+\[
+y_p(x) = A x^n.
+\]
+Substitute \( y_p \) into the differential equation and find the appropriate value of \( n \).
+
+Compute derivatives:
+\[
+y_p' = A n x^{n-1}, \quad y_p'' = A n(n-1) x^{n-2}.
+\]
+
+Substitute into the equation:
+\[
+A n(n-1) x^{n-2} + x (A x^n) = x^5.
+\]
+
+Simplify:
+\[
+A n(n-1) x^{n-2} + A x^{n+1} = x^5.
+\]
+
+To match the powers of \( x \), set \( n+1 = 5 \) and \( n-2 = 5 \), but these yield inconsistent values for \( n \). Alternatively, since \( x^{n+1} \) will dominate \( x^{n-2} \) for large \( x \), we focus on the term \( A x^{n+1} \).
+
+Set:
+\[
+n + 1 = 5 \Rightarrow n = 4.
+\]
+
+Using \( n = 4 \), check the terms:
+\[
+A [4 \cdot 3 x^2 + x^5] = x^5 \Rightarrow A (12 x^2 + x^5) = x^5.
+\]
+
+For large \( x \), the \( x^5 \) term dominates \( x^2 \). Therefore, we have:
+\[
+A x^5 \approx x^5 \Rightarrow A = 1.
+\]
+Thus the particular solution is:
+\[
+y_p(x) = x^4.
+\]
+
+The general solution is the sum of the homogeneous and particular solutions:
+\[
+y(x) = y_{\text{hom}}(x) + y_p(x).
+\]
+
+Substituting the expressions:
+\[
+y(x) = \frac{1}{\pi x^{1/4}} \left[ c_1 \sin \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right) + c_2 \cos \left( \frac{2}{3} x^{3/2} + \frac{\pi}{4} \right) \right] + x^4.
+\]
+
+As \( x \to +\infty \):
+
+- The oscillatory term decays like \( x^{-1/4} \).
+- The particular solution \( x^4 \) grows without bound.
+
+Therefore, the dominant term in the general solution is \( x^4 \). The oscillatory homogeneous solution becomes negligible compared to \( x^4 \) at large \( x \).
+
+Thus the leading behavior is:
+\[
+y(x) \sim x^4 \quad \text{as } x \to +\infty.
+\]
+
+
+}
+
+
+
+\end{document}
